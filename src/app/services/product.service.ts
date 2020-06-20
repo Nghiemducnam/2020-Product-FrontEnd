@@ -4,6 +4,7 @@ import {Product} from '../models/product';
 import {ResponseObjModel} from '../models/response-obj.model';
 import {HttpClient} from '@angular/common/http';
 import {map, shareReplay, takeUntil} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class ProductService {
 productSubject$ = new Subject<ResponseObjModel<any>>();
   constructor(private http: HttpClient) { }
 
-  private productListCache$: Observable<Product[]>;
+  productListCache$: Observable<Product[]>;
   private productListReload$ = new Subject<void>();
   selectProducts(): Observable<Product[]>{
     if(!this.productListCache$) {
@@ -36,6 +37,6 @@ productSubject$ = new Subject<ResponseObjModel<any>>();
   }
 
   callApiToGetProducts(): Observable<ResponseObjModel<any>>{
-    return this.http.get<ResponseObjModel<any>>('//////');
+    return this.http.get<ResponseObjModel<any>>('http://localhost:8080/api/productList');
   }
 }

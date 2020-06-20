@@ -20,6 +20,7 @@ isLoaded$: Observable<boolean>
   this.productService.productSubject$.subscribe(res =>{
     if(res.data == '00'){
       this.products = res.data;
+      console.log(this.products)
       this.selectProducts();
     }else
       return;
@@ -28,11 +29,17 @@ isLoaded$: Observable<boolean>
 
   ngOnInit(): void {
     this.store.dispatch(new ProductListRequested());
+    // this.productService.callApiToGetProducts().subscribe(res => {
+    //   this.products = res.data;
+    //   console.log(this.products)
+    // })
+    this.selectProducts();
   }
 
   selectProducts(){
     this.store.pipe(select(selectProductList)).subscribe((response: Product[]) => {this.products = response
     ////////////
+      console.log(this.products)
     })
     this.isLoaded$ = this.store.pipe(select(isProductListLoaded));
   }
