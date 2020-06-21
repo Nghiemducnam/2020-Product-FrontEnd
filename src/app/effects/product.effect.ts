@@ -20,13 +20,14 @@ export class ProductsEffect {
         return new ProductListLoaded({
           products: result
         });
-      })
+      }),
+
     );
 
   @Effect()
   reloadAllProducts$ = this.actions$
     .pipe(
-      ofType<ProductListLoaded>(ProductsActionType.ProductListLoaded),
+      ofType<ProductListLoaded>(ProductsActionType.ProductListReloaded),
       map( () =>{
         this.productService.reloadProducts();
         return new ProductListRequested();
