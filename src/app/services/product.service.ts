@@ -20,8 +20,8 @@ productSubject$ = new Subject<ResponseObjModel<any>>();
       this.productListCache$ = this.callApiToGetProducts().pipe(
         takeUntil(this.productListReload$),
         shareReplay(1),
-        map( (res: ResponseObjModel<any>) =>{
-          if (res === null || res.code === '00') {
+        map( (res: ResponseObjModel<Product[]>) =>{
+          if (res.code !== '00' && res.data !== null) {
             return null;
           }else
             return res.data;
@@ -36,7 +36,7 @@ productSubject$ = new Subject<ResponseObjModel<any>>();
     this.productListCache$ = null;
   }
 
-  callApiToGetProducts(): Observable<ResponseObjModel<any>>{
-    return this.http.get<ResponseObjModel<any>>('http://localhost:8080/api/productList');
+  callApiToGetProducts(): Observable<ResponseObjModel<Product[]>>{
+    return this.http.get<ResponseObjModel<Product[]>>(`${environment.api_endpoint}/api/productList`);
   }
 }
